@@ -1,3 +1,4 @@
+#ColorShift
 **ColorShift** is a powerful and intuitive image manipulation tool designed to give users full control over the color dynamics of their images. With ColorShift, you can selectively change specific color channels (red, green, or blue) to any desired target color using precise RGB values. This program is perfect for photographers, designers, and digital artists who want to enhance or alter the color scheme of their images effortlessly.
 
 Key features include:
