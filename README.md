@@ -9,24 +9,29 @@ This program is perfect for photographers, designers, and digital artists who wa
 
 ## Key features:
 - ***Selective Color Transformation***: Choose to *modify the red, green, or blue channel* of your image and seamlessly *blend it with your target color*.
+  
 - ***Background Color Transformation***: *Replace the background color* of your image (specifically black or near-black) *with any custom color*. Ideal for handling photos with black backgrounds that need a color update.
+  
 - ***Black-and-White Conversion***: Quickly *convert your image to a high-quality grayscale image* with just one command, maintaining its detail and clarity.
+  
 - ***User-Friendly Interface***: *Input validation* ensures that image paths are correctly formatted, colors are entered in valid RGB format, and color channels are specified accurately.
+  
 - ***Error Handling***: Robust *error-checking* capabilities ensure smooth operation, with *clear prompts* and guidance when something goes wrong, such as incorrect paths or missing files.
+  
 - ***Cross-Platform Compatibility***: *Compatible with various image formats* (.jpg, .jpeg, .png and .bmp) and *designed to work smoothly across different operating systems*.
 
 ## How to Use:
-1. *Input Validation*:
-- Ensure the image path is correct.
-- Enter the target color in the correct RGB format.
-- Specify which color channel you want to change (red, green, or blue).
+1. ***Input Validation***:
+    - Ensure the image path is correct.
+    - Enter the target color in the correct RGB format.
+    - Specify which color channel you want to change (red, green, or blue).
 
-2. *Select an Option*:
-Choose whether you want to transform a specific color, change the black background to a new color, or convert the image to black and white.
+2. ***Select an Option***:
+    - Choose whether you want to transform a specific color, change the black background to a new color, or convert the image to black and white.
 
-3. *New Features*:
-- If you're transforming a black background, enter the new target background color.
-- For black-and-white conversion, simply select the option, and your image will be converted with one command.
+3. ***New Features***:
+    - If you're transforming a black background, enter the new target background color.
+    - For black-and-white conversion, simply select the option, and your image will be converted with one command.
 
 ## Updates:
 - **Version 1.1**: Added the ability to:
