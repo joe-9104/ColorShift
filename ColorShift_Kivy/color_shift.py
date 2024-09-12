@@ -1,32 +1,33 @@
+# color_shift.py
 from PIL import Image
 
 class ColorShift:
-    def __init__(self, image_path=None):
-        # Initialize with no image if not provided yet
+    def __init__(self, image_path):
         self.image_path = image_path
-        self.img = None
+        self.img = self.load_image()
 
-    def load_image(self, path):
+    # Load the image
+    def load_image(self):
         try:
-            self.image_path = path
-            self.img = Image.open(path)
+            img = Image.open(self.image_path)
+            return img
         except FileNotFoundError:
-            print("Image not found.")
-        except Exception as e:
-            print(f"Error loading image: {e}")
+            print(f"Image not found at {self.image_path}")
+            return None
 
-    def transform_color(self, target_color):
+    # Convert the image to black and white
+    def convert_to_black_and_white(self):
         if self.img:
-            # Apply color transformation logic
-            pass
+            self.img = self.img.convert("L").convert("RGB")  # Convert to grayscale and back to RGB
+            return self.img
         else:
             print("No image loaded.")
+            return None
 
+    # Save the modified image in a temporary file
     def save_image(self, output_path):
         if self.img:
-            try:
-                self.img.save(output_path)
-            except Exception as e:
-                print(f"Error saving image: {e}")
+            self.img.save(output_path)
+            print(f"Image saved at {output_path}")
         else:
             print("No image to save.")
