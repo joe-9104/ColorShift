@@ -34,6 +34,10 @@ class ColorShiftApp(App):
         )
         self.effect_spinner.bind(text=self.on_effect_selected)
         self.static_left_layout.add_widget(self.effect_spinner)
+
+        # Add info message
+        self.instruction_label = Label(text="Choose an image to proceed with modification", size_hint=(1, 0.1))
+        self.dynamic_left_layout.add_widget(self.instruction_label)
         
         # Add static and dynamic layouts to the main left layout
         self.left_layout.add_widget(self.static_left_layout)
