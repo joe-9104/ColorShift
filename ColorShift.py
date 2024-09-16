@@ -78,7 +78,7 @@ class ColorShift:
             print(f"Error: Could not load the file at '{image_path}'. Skipping this image.")
             return None
 
-    # Convert the image to black and white
+    # Convert the image to black and white; done
     def convert_to_black_and_white(self):
         self.img = self.img.convert("L").convert("RGB")  # Convert to grayscale and back to RGB
 
@@ -151,32 +151,53 @@ class ColorShift:
             except FileNotFoundError:
                 print("Invalid folder path. Please try again.")
 
-    # Adjust contrast and brightness
+    # Adjust contrast and brightness; done
     def adjust_contrast_brightness(self, contrast_factor, brightness_factor):
         enhancer_contrast = ImageEnhance.Contrast(self.img)
         self.img = enhancer_contrast.enhance(contrast_factor)
         enhancer_brightness = ImageEnhance.Brightness(self.img)
         self.img = enhancer_brightness.enhance(brightness_factor)
 
-    # Apply color preset
+    # Apply color preset; done
     def apply_color_preset(self, preset):
         valid_presets = ["warm", "cool", "vintage", "sepia"]
         while preset not in valid_presets:
             preset = input(f"Invalid preset. Choose one from {valid_presets}: ")
+        
+        # Apply Sepia preset
         if preset == 'sepia':
             sepia_filter = [(int(r * 0.393 + g * 0.769 + b * 0.189),
-                             int(r * 0.349 + g * 0.686 + b * 0.168),
-                             int(r * 0.272 + g * 0.534 + b * 0.131))
+                            int(r * 0.349 + g * 0.686 + b * 0.168),
+                            int(r * 0.272 + g * 0.534 + b * 0.131))
                             for (r, g, b) in self.img.getdata()]
             self.img.putdata(sepia_filter)
             print("Sepia preset applied.")
+        
+        # Apply Cool preset
         elif preset == 'cool':
             cool_filter = [(int(r * 0.8), int(g * 0.9), int(b * 1.1)) for (r, g, b) in self.img.getdata()]
             self.img.putdata(cool_filter)
             print("Cool preset applied.")
+        
+        # Apply Warm preset
+        elif preset == 'warm':
+            warm_filter = [(int(r * 1.1), int(g * 0.9), int(b * 0.8)) for (r, g, b) in self.img.getdata()]
+            self.img.putdata(warm_filter)
+            print("Warm preset applied.")
+        
+        # Apply Vintage preset
+        elif preset == 'vintage':
+            vintage_filter = [(int(r * 0.9 + g * 0.7 + b * 0.4),
+                            int(r * 0.6 + g * 0.5 + b * 0.3),
+                            int(r * 0.3 + g * 0.2 + b * 0.1))
+                            for (r, g, b) in self.img.getdata()]
+            self.img.putdata(vintage_filter)
+            print("Vintage preset applied.")
+        
         print(f"Applied {preset} preset.")
 
-    # Apply gradient
+
+    # Apply gradient; done
     def apply_gradient(self, color1, color2):
         width, height = self.img.size
         gradient = Image.new('RGB', (width, height))
@@ -188,9 +209,8 @@ class ColorShift:
             draw.line([(0, i), (width, i)], fill=(r, g, b))
         self.img = Image.blend(self.img, gradient, alpha=0.5)
         print("Gradient applied.")
-        print("Applied gradient effect.")
 
-    # Apply sharpen or blur
+    # Apply sharpen or blur; done
     def apply_sharpen_blur(self, effect):
         if effect == "sharpen":
             self.img = self.img.filter(ImageFilter.SHARPEN)
@@ -198,7 +218,7 @@ class ColorShift:
             self.img = self.img.filter(ImageFilter.BLUR)
         print(f"Applied {effect} effect.")
 
-    # Apply transparency
+    # Apply transparency; done
     def apply_transparency(self, transparency_level):
         while not (0 <= transparency_level <= 255):
             transparency_level = int(input("Enter a valid transparency level (0 to 255): "))

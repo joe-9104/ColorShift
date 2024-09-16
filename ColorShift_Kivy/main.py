@@ -1,4 +1,4 @@
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ImageDraw
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -6,6 +6,7 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.spinner import Spinner
+from kivy.uix.slider import Slider
 from color_shift import ColorShift
 import os
 
@@ -29,14 +30,19 @@ class ColorShiftApp(App):
         # Add dropdown for effect selection
         self.effect_spinner = Spinner(
             text="Select effect",
-            values=("black and white", "sharpen or blur"),
+            values=("black and white", 
+                    "sharpen or blur", 
+                    "Apply color preset", 
+                    "apply gradient", 
+                    "adjust contrast or brightness", 
+                    "Apply transparency"),
             size_hint=(1, 0.1)
         )
         self.effect_spinner.bind(text=self.on_effect_selected)
         self.static_left_layout.add_widget(self.effect_spinner)
 
         # Add info message
-        self.instruction_label = Label(text="Choose an image to proceed with modification", size_hint=(1, 0.1))
+        self.instruction_label = Label(text="Choose an image to proceed with modification", size_hint=(1, 0.3))
         self.dynamic_left_layout.add_widget(self.instruction_label)
         
         # Add static and dynamic layouts to the main left layout
@@ -102,10 +108,99 @@ class ColorShiftApp(App):
                 size_hint=(1, 0.1)
             )
             self.dynamic_left_layout.add_widget(self.sharpen_blur_spinner)
-            
             # Add button to apply sharpen or blur effect
             sharpen_blur_btn = Button(text="Apply sharpen or blur", size_hint=(1, 0.1), on_press=self.start_sharpen_blur_transformation)
             self.dynamic_left_layout.add_widget(sharpen_blur_btn)
+        elif text == "Apply color preset":
+            self.preset_spinner = Spinner(
+                text="Select preset",
+                values=("warm", "cool", "vintage", "sepia"),
+                size_hint=(1, 0.1)
+            )
+            self.dynamic_left_layout.add_widget(self.preset_spinner)
+            preset_btn = Button(text="Apply preset", size_hint=(1, 0.1), on_press=self.start_preset_transformation)
+            self.dynamic_left_layout.add_widget(preset_btn)
+        elif text == "apply gradient":
+            # Add gradient sliders for two colors
+            self.dynamic_left_layout.add_widget(Label(text="Color 1 (RGB):"))
+
+            # Sliders for color 1
+            self.r1_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+            self.g1_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+            self.b1_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+
+            # Labels to show current values
+            self.r1_label = Label(text=f"R: {int(self.r1_slider.value)}")
+            self.g1_label = Label(text=f"G: {int(self.g1_slider.value)}")
+            self.b1_label = Label(text=f"B: {int(self.b1_slider.value)}")
+
+            # Bind slider values to update labels dynamically
+            self.r1_slider.bind(value=lambda instance, value: self.update_slider_label(self.r1_label, "R", value))
+            self.g1_slider.bind(value=lambda instance, value: self.update_slider_label(self.g1_label, "G", value))
+            self.b1_slider.bind(value=lambda instance, value: self.update_slider_label(self.b1_label, "B", value))
+
+            # Add sliders and labels to the layout
+            self.dynamic_left_layout.add_widget(self.r1_label)
+            self.dynamic_left_layout.add_widget(self.r1_slider)
+            self.dynamic_left_layout.add_widget(self.g1_label)
+            self.dynamic_left_layout.add_widget(self.g1_slider)
+            self.dynamic_left_layout.add_widget(self.b1_label)
+            self.dynamic_left_layout.add_widget(self.b1_slider)
+
+            self.dynamic_left_layout.add_widget(Label(text="Color 2 (RGB):"))
+
+            # Sliders for color 2
+            self.r2_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+            self.g2_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+            self.b2_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+
+            # Labels to show current values
+            self.r2_label = Label(text=f"R: {int(self.r2_slider.value)}")
+            self.g2_label = Label(text=f"G: {int(self.g2_slider.value)}")
+            self.b2_label = Label(text=f"B: {int(self.b2_slider.value)}")
+
+            # Bind slider values to update labels dynamically
+            self.r2_slider.bind(value=lambda instance, value: self.update_slider_label(self.r2_label, "R", value))
+            self.g2_slider.bind(value=lambda instance, value: self.update_slider_label(self.g2_label, "G", value))
+            self.b2_slider.bind(value=lambda instance, value: self.update_slider_label(self.b2_label, "B", value))
+
+            # Add sliders and labels to the layout
+            self.dynamic_left_layout.add_widget(self.r2_label)
+            self.dynamic_left_layout.add_widget(self.r2_slider)
+            self.dynamic_left_layout.add_widget(self.g2_label)
+            self.dynamic_left_layout.add_widget(self.g2_slider)
+            self.dynamic_left_layout.add_widget(self.b2_label)
+            self.dynamic_left_layout.add_widget(self.b2_slider)
+
+            # Add button to apply the gradient effect
+            apply_gradient_btn = Button(text="Apply Gradient", size_hint=(1, 0.1), on_press=self.start_gradient_transformation)
+            self.dynamic_left_layout.add_widget(apply_gradient_btn)
+
+        elif text == "adjust contrast or brightness":
+            self.dynamic_left_layout.add_widget(Label(text="Contrast factor:"))
+            self.contrast_slider = Slider(min=0, max=2.0, value=1.0, step=0.1, size_hint=(1, 0.1))
+            self.contrast_label = Label(text=f"Contrast: {int(self.contrast_slider.value)}")
+            self.contrast_slider.bind(value=lambda instance, value: self.update_slider_label(self.contrast_label, "Contrast: ", value, "float"))
+            self.dynamic_left_layout.add_widget(self.contrast_slider)
+            self.dynamic_left_layout.add_widget(self.contrast_label)
+            self.dynamic_left_layout.add_widget(Label(text="Brightness factor:"))
+            self.brightness_slider = Slider(min=0, max=2.0, value=1.0, step=0.1, size_hint=(1, 0.1))
+            self.brightness_label = Label(text=f"Brightness: {int(self.contrast_slider.value)}")
+            self.brightness_slider.bind(value=lambda instance, value: self.update_slider_label(self.brightness_label, "Brightness: ", value, "float"))
+            self.dynamic_left_layout.add_widget(self.brightness_slider)
+            self.dynamic_left_layout.add_widget(self.brightness_label)
+            apply_contrast_brightness_btn = Button(text="Apply Contrast or Brightness", size_hint=(1, 0.1), on_press = self.start_contrast_brightness_transformation)
+            self.dynamic_left_layout.add_widget(apply_contrast_brightness_btn)
+
+        elif text == "Apply transparency":
+            self.dynamic_left_layout.add_widget(Label(text="Transparency level:"))
+            self.transparency_slider = Slider(min=0, max=255, value=128, step=1, size_hint=(1, 0.1))
+            self.transparency_label = Label(text=f"Transparency: {int(self.transparency_slider.value)}")
+            self.transparency_slider.bind(value=lambda instance, value: self.update_slider_label(self.transparency_label, "Transparency: ", value))
+            self.dynamic_left_layout.add_widget(self.transparency_slider)
+            self.dynamic_left_layout.add_widget(self.transparency_label)
+            apply_transparency_btn = Button(text = "Apply transparency", size_hint=(1, 0.1), on_press = self.start_transparency_transformation)
+            self.dynamic_left_layout.add_widget(apply_transparency_btn)
 
 
     # Add save and cancel buttons after applying effect
@@ -217,7 +312,12 @@ class ColorShiftApp(App):
             os.remove(self.stored_modified_image)  # Delete the temporary black-and-white image
             self.stored_modified_image = None
 
+
+
     # Main functions
+
+
+
     def start_black_and_white_transformation(self, instance):
         if self.current_image:
             ColorShiftInstance = ColorShift(self.current_image)
@@ -259,6 +359,76 @@ class ColorShiftApp(App):
         else:
             print("Please select an effect and an image.")
 
+    def start_preset_transformation(self, instance):
+        selected_preset = self.preset_spinner.text
+        if self.current_image and selected_preset in ("warm", "cool", "vintage", "sepia"):
+            self.stored_original_image = self.current_image
+            ColorShiftInstance = ColorShift(self.current_image)
+            ColorShiftInstance.apply_color_preset(selected_preset)
+            modified_img_path = os.path.join(os.getcwd(), "ColorShift_Kivy/images", f"{selected_preset}_image.png")
+            ColorShiftInstance.save_image(modified_img_path)
+            self.stored_modified_image = modified_img_path
+            self.img_widget.source = modified_img_path
+            self.img_widget.reload()
+            self.modification_type = selected_preset
+            self.add_save_cancel_buttons(selected_preset)
+        else:
+            print("Please select a preset.")
+
+    # Update the label for RGB slider
+    def update_slider_label(self, label, attribute, value, valueType = 'int'):
+        if valueType == 'int':
+            label.text = f"{attribute}: {int(value)}"
+        elif valueType == 'float':
+            label.text = f"{attribute}: {float(value)}"
+
+    # Function to get RGB values from sliders and apply gradient
+    def start_gradient_transformation(self, instance):
+        color1 = (int(self.r1_slider.value), int(self.g1_slider.value), int(self.b1_slider.value))
+        color2 = (int(self.r2_slider.value), int(self.g2_slider.value), int(self.b2_slider.value))
+        if color1 and color2 and self.current_image:
+            self.stored_original_image = self.current_image
+            ColorShiftInstance = ColorShift(self.current_image)
+            ColorShiftInstance.apply_gradient(color1, color2)
+            modified_img_path = os.path.join(os.getcwd(), "ColorShift_Kivy/images", f"gradient_image.png")
+            ColorShiftInstance.save_image(modified_img_path)
+            self.stored_modified_image = modified_img_path
+            self.img_widget.source = modified_img_path
+            self.img_widget.reload()
+            self.modification_type = "gradient"
+            self.add_save_cancel_buttons("gradient")
+
+    def start_contrast_brightness_transformation(self, instance):
+        contrast = float(self.contrast_slider.value)
+        brightness = float(self.brightness_slider.value)
+        if contrast and brightness and self.current_image:
+            self.stored_original_image = self.current_image
+            ColorShiftInstance = ColorShift(self.current_image)
+            ColorShiftInstance.adjust_contrast_brightness(contrast, brightness)
+            modified_img_path = os.path.join(os.getcwd(), "ColorShift_Kivy/images", f"contrast-brightness_image.png")
+            ColorShiftInstance.save_image(modified_img_path)
+            self.stored_modified_image = modified_img_path
+            self.img_widget.source = modified_img_path
+            self.img_widget.reload()
+            self.modification_type = "contrast_brightness"
+            self.add_save_cancel_buttons("contrast_brightness")
+        else:
+            print("Please select a valid image or a valid contrast / brightness factor.")
+    
+    def start_transparency_transformation(self, instance):
+        transparency_factor = int(self.transparency_slider.value)
+        if transparency_factor and self.current_image:
+            self.stored_original_image = self.current_image
+            ColorShiftInstance = ColorShift(self.current_image)
+            ColorShiftInstance.apply_transparency(transparency_factor)
+            modified_img_path = os.path.join(os.getcwd(), "ColorShift_Kivy/images", f"transparent_image.png")
+            ColorShiftInstance.save_image(modified_img_path)
+            self.stored_modified_image = modified_img_path
+            self.img_widget.source = modified_img_path
+            self.img_widget.reload()
+            self.modification_type = "transparency"
+            self.add_save_cancel_buttons("transparency")
+    
 
 # Run the app
 if __name__ == '__main__':
