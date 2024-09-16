@@ -1,6 +1,6 @@
 # ColorShift
 
-**ColorShift** is a powerful and intuitive image manipulation tool designed to give users full control over the color dynamics of their images. With ColorShift, you can now effortlessly convert images to black and white, change background colors, and modify specific colors. It also offers features like color masking, batch processing, contrast and brightness adjustments, color presets, gradient effects, and more, making it ideal for photographers, designers, and digital artists seeking versatile image editing capabilities.
+**ColorShift** is a powerful and intuitive image manipulation tool *developed using the **Kivy** Python framework*, designed to give users full control over the color dynamics of their images. With ColorShift, you can now effortlessly convert images to black and white, change background colors, and modify specific colors. It also offers features like color masking, batch processing, contrast and brightness adjustments, color presets, gradient effects, and more, making it ideal for photographers, designers, and digital artists seeking versatile image editing capabilities.
 
 
 ## Key Features:
@@ -57,5 +57,11 @@
     - Gradient effects.
     - Sharpen or blur effects.
     - Transparency adjustments.
+- **Version 2.0**: Major overhaul:
+    - Migrated from a command-line interface (CLI) to a graphical user interface (GUI).
+    - Introduced an intuitive UI layout with image selection and effect application.
+- **Version 2.1**: Implemented the following transformations within the UI:
+    - Black and white conversion.
+    - Sharpen or blur effect, allowing users to choose between the two.
 
 If you're looking to correct your image's color imbalances or creatively transform its color composition, ColorShift offers the tools you need to achieve stunning results with minimal effort.
