@@ -63,5 +63,11 @@
 - **Version 2.1**: Implemented the following transformations within the UI:
     - Black and white conversion.
     - Sharpen or blur effect, allowing users to choose between the two.
+- **Version 2.2**: Added new features to the Kivy-based UI:
+    - Applied color presets such as sepia, cool, warm, and vintage.
+    - Introduced a gradient application feature, allowing users to blend two custom colors over the image.
+    - Enabled contrast and brightness adjustments via intuitive sliders.
+    - Added transparency adjustment functionality to modify image opacity.
+
 
 If you're looking to correct your image's color imbalances or creatively transform its color composition, ColorShift offers the tools you need to achieve stunning results with minimal effort.
