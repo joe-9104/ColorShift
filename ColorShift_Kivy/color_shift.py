@@ -46,7 +46,6 @@ class ColorShift:
         print("Gradient applied.")
         print("Applied gradient effect.")
 
-
     # Apply color preset
     def apply_color_preset(self, preset):
         valid_presets = ["warm", "cool", "vintage", "sepia"]
@@ -89,6 +88,34 @@ class ColorShift:
             transparency_level = int(input("Enter a valid transparency level (0 to 255): "))
         self.img.putalpha(transparency_level)
         print("Transparency applied successfully.")
+
+    # Apply color mask
+    def apply_color_mask(self, mask_color):
+        data = self.img.getdata()
+        new_image_data = [(mask_color if (r < 100 and g < 100 and b < 100) else (r, g, b)) for (r, g, b) in data]
+        self.img.putdata(new_image_data)
+        print("Color mask applied successfully.")
+
+    # Change a specific color within the image
+    def change_color(self, target_color, color_to_change):
+        try:
+            data = self.img.getdata()
+            new_image_data = []
+            for item in data:
+                r, g, b = item
+                color_map = {'r': r, 'g': g, 'b': b}
+                if color_map[color_to_change] >= color_map['r'] and color_map[color_to_change] >= color_map['g'] and color_map[color_to_change] >= color_map['b']:
+                    factor = color_map[color_to_change] / 255.0
+                    new_r = int((1 - factor) * r + factor * target_color[0])
+                    new_g = int((1 - factor) * g + factor * target_color[1])
+                    new_b = int((1 - factor) * b + factor * target_color[2])
+                    new_image_data.append((new_r, new_g, new_b))
+                else:
+                    new_image_data.append(item)
+            self.img.putdata(new_image_data)
+            print("Color changed successfully.")
+        except Exception as e:
+            print(f"Error occurred while processing the image: {e}")
 
 
     # Save the modified image in a temporary file

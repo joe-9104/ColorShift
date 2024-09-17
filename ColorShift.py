@@ -78,7 +78,7 @@ class ColorShift:
             print(f"Error: Could not load the file at '{image_path}'. Skipping this image.")
             return None
 
-    # Convert the image to black and white; done
+    # Convert the image to black and white
     def convert_to_black_and_white(self):
         self.img = self.img.convert("L").convert("RGB")  # Convert to grayscale and back to RGB
 
@@ -151,14 +151,14 @@ class ColorShift:
             except FileNotFoundError:
                 print("Invalid folder path. Please try again.")
 
-    # Adjust contrast and brightness; done
+    # Adjust contrast and brightness
     def adjust_contrast_brightness(self, contrast_factor, brightness_factor):
         enhancer_contrast = ImageEnhance.Contrast(self.img)
         self.img = enhancer_contrast.enhance(contrast_factor)
         enhancer_brightness = ImageEnhance.Brightness(self.img)
         self.img = enhancer_brightness.enhance(brightness_factor)
 
-    # Apply color preset; done
+    # Apply color preset
     def apply_color_preset(self, preset):
         valid_presets = ["warm", "cool", "vintage", "sepia"]
         while preset not in valid_presets:
@@ -197,7 +197,7 @@ class ColorShift:
         print(f"Applied {preset} preset.")
 
 
-    # Apply gradient; done
+    # Apply gradient
     def apply_gradient(self, color1, color2):
         width, height = self.img.size
         gradient = Image.new('RGB', (width, height))
@@ -210,7 +210,7 @@ class ColorShift:
         self.img = Image.blend(self.img, gradient, alpha=0.5)
         print("Gradient applied.")
 
-    # Apply sharpen or blur; done
+    # Apply sharpen or blur
     def apply_sharpen_blur(self, effect):
         if effect == "sharpen":
             self.img = self.img.filter(ImageFilter.SHARPEN)
@@ -218,7 +218,7 @@ class ColorShift:
             self.img = self.img.filter(ImageFilter.BLUR)
         print(f"Applied {effect} effect.")
 
-    # Apply transparency; done
+    # Apply transparency
     def apply_transparency(self, transparency_level):
         while not (0 <= transparency_level <= 255):
             transparency_level = int(input("Enter a valid transparency level (0 to 255): "))

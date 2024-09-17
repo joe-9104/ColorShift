@@ -1,0 +1,65 @@
+#:set hover_color_button [0.208, 0.447, 0.647, 1]  # RGB #3572a5
+#:set hover_color_slider [0.145, 0.435, 0.616, 1] # RGB #256f9d
+
+<Label>:
+    font_name: "segoeui"
+    color: 1, 1, 1, 1  # White text
+    text_size: self.width, None  # Ensure text fits within the label width
+    halign: 'center'
+    valign: 'middle'
+    height: self.texture_size[1]  # Make the label adjust its height to the content
+    multiline: True  # Allow text to wrap
+
+<Button>:
+    font_name: "segoeui"
+    background_normal: ''
+    background_color: [0.067, 0.659, 0.671, 1]  # RGB #11a8ab
+    border: 0, 0, 0, 0  # Remove default border
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [5]  # 5px border-radius
+
+<Slider>:
+    #cursor_image: "assets/slider_cursor.png"  # Custom cursor image (ensure it exists)
+    value_track: True
+    value_track_color: 0.2, 0.8, 0.8, 1
+    value_track_width: 5
+    background_width: 2  # Thin background track
+    font_name: "segoeui"
+
+<Spinner>:
+    font_name: "segoeui"
+    background_normal: ''
+    background_color: [0.067, 0.659, 0.671, 1]  # Same blue as buttons for consistency
+    border: 0, 0, 0, 0  # No border
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [5]  # 5px border-radius
+    # Add a down arrow on the spinner
+    canvas.after:
+        Color:
+            rgba: 1, 1, 1, 1  # White color for the arrow
+        Triangle:
+            points: [self.right - 20, self.center_y + 5, self.right - 10, self.center_y + 5, self.right - 15, self.center_y - 5]  # Simple down arrow
+
+<BoxLayout>:
+    padding: 10
+    spacing: 10
+    background_color: [0.9, 0.9, 0.9, 1]  # Light gray for the right layout (RGB #e5e5e5)
+
+<main_layout>:
+    background_color: [0.9, 0.9, 0.9, 1]  # Light gray for the right layout (RGB #e5e5e5)
+
+<left_layout>:
+    background_color: [0.8, 0.8, 0.8, 1]  # Darker gray for the left layout (RGB #cccccc)
+
+<right_layout>:
+    background_color: [0.95, 0.95, 0.95, 1]  # Very light gray for better contrast (RGB #f2f2f2)
