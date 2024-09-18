@@ -31,14 +31,14 @@ class ColorShiftApp(App):
         # Add dropdown for effect selection
         self.effect_spinner = Spinner(
             text="Select effect",
-            values=("black and white", 
-                    "Change color", 
-                    "sharpen or blur", 
-                    "Apply color preset", 
-                    "apply gradient", 
-                    "adjust contrast or brightness", 
-                    "Apply transparency",
-                    "Apply color mask"),
+            values=("Black and White", 
+                    "Change Color", 
+                    "Sharpen or Blur", 
+                    "Apply Color Preset", 
+                    "Apply Gradient", 
+                    "Adjust Contrast or Brightness", 
+                    "Apply Transparency",
+                    "Apply Color Mask"),
             size_hint=(1, 0.1)
         )
         self.effect_spinner.bind(text=self.on_effect_selected)
@@ -100,10 +100,11 @@ class ColorShiftApp(App):
         # Clear dynamic layout for new content
         self.dynamic_left_layout.clear_widgets()
 
-        if text == "black and white":
-            bw_btn = Button(text="Apply black and white", size_hint=(1, 0.1), on_press=self.start_black_and_white_transformation)
+        if text == "Black and White":
+            bw_btn = Button(text="Apply Black and White", size_hint=(1, 0.1), on_press=self.start_black_and_white_transformation)
+            self.dynamic_left_layout.add_widget(BoxLayout(size_hint = (1, 0.6)))
             self.dynamic_left_layout.add_widget(bw_btn)
-        elif text == "Change color":
+        elif text == "Change Color":
             self.target_layout = BoxLayout(orientation = "vertical", size_hint = (1, 0.4))
 
             self.target_layout.add_widget(Label(text = "Select the target color:"))
@@ -155,33 +156,39 @@ class ColorShiftApp(App):
             )
 
             self.dynamic_left_layout.add_widget(apply_color_change_btn)
-        elif text == "sharpen or blur":
+        elif text == "Sharpen or Blur":
 
             # Add dropdown for sharpen/blur selection
+            self.sharpen_blur_layout = BoxLayout(size_hint = (1, 0.1))
             self.sharpen_blur_spinner = Spinner(
                 text="Select effect",
                 values=("sharpen", "blur"),
                 size_hint=(1, 0.1)
             )
-            self.dynamic_left_layout.add_widget(self.sharpen_blur_spinner)
+            self.sharpen_blur_layout.add_widget(self.sharpen_blur_spinner)
+            self.dynamic_left_layout.add_widget(self.sharpen_blur_layout)
+            self.dynamic_left_layout.add_widget(BoxLayout())
 
             # Add button to apply sharpen or blur effect
-            sharpen_blur_btn = Button(text="Apply sharpen or blur", size_hint=(1, 0.1), on_press=self.start_sharpen_blur_transformation)
+            sharpen_blur_btn = Button(text="Apply Sharpen or Blur", size_hint=(1, 0.2), on_press=self.start_sharpen_blur_transformation)
             self.dynamic_left_layout.add_widget(sharpen_blur_btn)
 
-        elif text == "Apply color preset":
+        elif text == "Apply Color Preset":
 
+            self.preset_layout = BoxLayout(size_hint = (1, 0.1))
             self.preset_spinner = Spinner(
                 text="Select preset",
                 values=("warm", "cool", "vintage", "sepia"),
                 size_hint=(1, 0.1)
             )
-            self.dynamic_left_layout.add_widget(self.preset_spinner)
+            self.preset_layout.add_widget(self.preset_spinner)
+            self.dynamic_left_layout.add_widget(self.preset_layout)
+            self.dynamic_left_layout.add_widget(BoxLayout())
 
-            preset_btn = Button(text="Apply preset", size_hint=(1, 0.1), on_press=self.start_preset_transformation)
+            preset_btn = Button(text="Apply Preset", size_hint=(1, 0.2), on_press=self.start_preset_transformation)
             self.dynamic_left_layout.add_widget(preset_btn)
 
-        elif text == "apply gradient":
+        elif text == "Apply Gradient":
 
             self.colors_layout = BoxLayout(orientation = "vertical", size_hint = (1, 0.6))
             self.color1_layout = BoxLayout(orientation = "vertical", size_hint = (1, 0.5))
@@ -246,7 +253,7 @@ class ColorShiftApp(App):
             apply_gradient_btn = Button(text="Apply Gradient", size_hint=(1, 0.1), on_press=self.start_gradient_transformation)
             self.dynamic_left_layout.add_widget(apply_gradient_btn)
 
-        elif text == "adjust contrast or brightness":
+        elif text == "Adjust Contrast or Brightness":
 
             self.slider_layout = BoxLayout(orientation = "vertical", size_hint = (1, 2/3))
             self.slider_layout.add_widget(Label(text="Contrast factor:"))
@@ -274,7 +281,7 @@ class ColorShiftApp(App):
             apply_contrast_brightness_btn = Button(text="Apply Contrast or Brightness", size_hint=(1, 0.1), on_press = self.start_contrast_brightness_transformation)
             self.dynamic_left_layout.add_widget(apply_contrast_brightness_btn)
 
-        elif text == "Apply transparency":
+        elif text == "Apply Transparency":
             self.transparency_layout = BoxLayout(orientation = "vertical", size_hint = (1, 0.5))
 
             self.transparency_layout.add_widget(Label(text="Transparency level:"))
@@ -288,10 +295,10 @@ class ColorShiftApp(App):
 
             self.dynamic_left_layout.add_widget(self.transparency_layout)
 
-            apply_transparency_btn = Button(text = "Apply transparency", size_hint=(1, 0.1), on_press = self.start_transparency_transformation)
+            apply_transparency_btn = Button(text = "Apply Transparency", size_hint=(1, 0.1), on_press = self.start_transparency_transformation)
             self.dynamic_left_layout.add_widget(apply_transparency_btn)
 
-        elif text == "Apply color mask":
+        elif text == "Apply Color Mask":
             self.color_layout = BoxLayout(orientation = "vertical", size_hint=(1, 0.5))
             self.color_layout.add_widget(Label(text="Mask color:"))
 
@@ -315,6 +322,7 @@ class ColorShiftApp(App):
             self.color_layout.add_widget(self.b_slider)
 
             self.dynamic_left_layout.add_widget(self.color_layout)
+            self.dynamic_left_layout.add_widget(BoxLayout(size_hint = (1, 0.1)))
 
             apply_mask_btn = Button(text = "Apply Color Mask", size_hint=(1, 0.1), on_press = self.start_color_mask_transformation)
             self.dynamic_left_layout.add_widget(apply_mask_btn)

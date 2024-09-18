@@ -24,7 +24,6 @@
             radius: [5]  # 5px border-radius
 
 <Slider>:
-    #cursor_image: "assets/slider_cursor.png"  # Custom cursor image (ensure it exists)
     value_track: True
     value_track_color: 0.2, 0.8, 0.8, 1
     value_track_width: 5
@@ -35,7 +34,7 @@
     font_name: "segoeui"
     background_normal: ''
     background_color: [0.067, 0.659, 0.671, 1]  # Same blue as buttons for consistency
-    border: 0, 0, 0, 0  # No border
+    border: 30, 30, 30, 30  
     canvas.before:
         Color:
             rgba: self.background_color
