@@ -28,13 +28,13 @@ class ColorShift:
         2. Change the background color of the image
         3. Change a specific color within the image
         4. Apply a color mask
-        5. Batch process images
+        5. Batch process images (black and white)
         6. Adjust contrast and brightness
         7. Apply color preset
         8. Apply gradient effect
         9. Apply sharpen or blur effect
         10. Apply transparency
-        Choice: """
+        """
 
         print(message)
         while True:
@@ -44,7 +44,7 @@ class ColorShift:
             else:
                 print("You must choose a valid option between 1 and 10.")
 
-    # Get and validate target color input with personalized message
+    # Get and validate target color input
     def get_target_color(self, input_message="Enter the target color in RGB format (e.g., (102, 147, 163)): "):
         while True:
             target_color = input(input_message).strip()
@@ -124,7 +124,7 @@ class ColorShift:
         self.img.putdata(new_image_data)
         print("Color mask applied successfully.")
 
-    # Batch process images
+    # Batch process images for black and white transformation
     def batch_process_images(self):
         while True:
             folder_path = input("Enter the folder path containing images for batch processing: ").strip().replace("\\", "/")
@@ -141,7 +141,6 @@ class ColorShift:
                 for image_path in image_files:
                     try:
                         img = Image.open(image_path).convert("RGB")
-                        # Apply transformations (example: black and white)
                         img = img.convert("L").convert("RGB")
                         img.save(image_path.replace(".", "-Processed."))
                         print(f"Processed {image_path}.")
@@ -195,7 +194,6 @@ class ColorShift:
             print("Vintage preset applied.")
         
         print(f"Applied {preset} preset.")
-
 
     # Apply gradient
     def apply_gradient(self, color1, color2):
@@ -254,7 +252,7 @@ class ColorShift:
                 else:
                     print("brightness factor value must be between 0 and 2")
         elif self.user_option == 7:
-            preset = input("Choose a color preset (warm, cool, vintage): ")
+            preset = input("Choose a color preset (warm, cool, vintage, sepia): ")
             return self.apply_color_preset(preset)
         elif self.user_option == 8:
             color1 = self.get_target_color("Provide a color in RGB format: ")
